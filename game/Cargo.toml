@@ -1,0 +1,16 @@
+[package]
+name = "game"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+ecs = { path = "../ecs" }
+glad-gl = { path = "../glad-gl" }
+glfw = "0.54.0"
+image = "0.24.8"
+nalgebra-glm = "0.18.0"
+
+[features]
+vulkan = [] # feature has no explicit dependencies

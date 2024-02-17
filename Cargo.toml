@@ -1,0 +1,7 @@
+[workspace]
+
+members = [
+    "game",
+    "ecs",
+    "glad-gl"
+]
