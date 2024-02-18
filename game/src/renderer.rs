@@ -84,6 +84,9 @@ pub struct Renderer {
     diffuse_map: u32,
     specular_map: u32,
 
+    cube_positions: [glm::Vec3; 10],
+    point_light_positions: [glm::Vec3; 4],
+
     // model: glm::Mat4,
     // view: glm::Mat4,
     // projection: glm::Mat4,
@@ -103,7 +106,7 @@ impl Renderer {
         ));
 
         let (mut window, events) = glfw
-            .create_window(800, 600, "Hello this is window", glfw::WindowMode::Windowed)
+            .create_window(800, 800, "Hello this is window", glfw::WindowMode::Windowed)
             .expect("Failed to create GLFW window.");
 
         window.set_cursor_pos_polling(true);
@@ -140,6 +143,26 @@ impl Renderer {
 
             diffuse_map: 0,
             specular_map: 0,
+
+            cube_positions: [
+                glm::vec3(0.0f32,  0.0f32,  0.0f32),
+                glm::vec3( 2.0f32,  5.0f32, -15.0f32),
+                glm::vec3(-1.5f32, -2.2f32, -2.5f32),
+                glm::vec3(-3.8f32, -2.0f32, -12.3f32),
+                glm::vec3( 2.4f32, -0.4f32, -3.5f32),
+                glm::vec3(-1.7f32,  3.0f32, -7.5f32),
+                glm::vec3( 1.3f32, -2.0f32, -2.5f32),
+                glm::vec3( 1.5f32,  2.0f32, -2.5f32),
+                glm::vec3( 1.5f32,  0.2f32, -1.5f32),
+                glm::vec3(-1.3f32,  1.0f32, -1.5f32)
+            ],
+
+            point_light_positions: [
+                glm::vec3( 0.7f32,  0.2f32,  2.0f32),
+                glm::vec3( 2.3f32, -3.3f32, -4.0f32),
+                glm::vec3(-4.0f32,  2.0f32, -12.0f32),
+                glm::vec3( 0.0f32,  0.0f32, -3.0f32)
+            ],
         };
 
         // let mut renderer = Self::new(camera);
@@ -218,57 +241,73 @@ impl Renderer {
             renderer.shader.use_program();
             renderer.shader.set_int("material.diffuse", 0);
             renderer.shader.set_int("material.specular", 1);
-
-            // gl::EnableVertexAttribArray(a_tex_coord);
-            // gl::VertexAttribPointer(
-            //     a_tex_coord,
-            //     2,
-            //     gl::FLOAT,
-            //     gl::FALSE,
-            //     5 * size_of::<gl::GLfloat>() as i32,
-            //     std::ptr::null::<c_void>().offset(3 * size_of::<gl::GLfloat>() as isize),
-            // );
-
-            // renderer.load_textures();
-
-
-            println!("vao: {:?}, vbo: {:?}, vpoint: {:?}, light: {:?}", renderer.vao_id, renderer.vbo_id, a_pos, renderer.light_vao);
         }
 
-        // let shader = renderer.init();
         renderer
     }
 
     pub fn draw(&self) {
-        let light_pos: glm::Vec3 = glm::vec3(1.2f32, 1.0f32, 2.0f32);
-
         unsafe {
             gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
 
             self.shader.use_program();
-            self.shader.set_vec_3("objectColor", 1.0f32, 0.5f32, 0.31f32);
-            self.shader.set_vec_3("lightColor", 1.0f32, 1.0f32, 1.0f32);
-            self.shader.set_vec_3v("lightPos", &light_pos);
-            self.shader.set_vec_3v("viewPos", &self.camera.position);
 
-            // self.shader.set_vec_3("material.ambient", 1.0f32, 0.5f32, 0.31f32);
-            // self.shader.set_vec_3("material.diffuse", 1.0f32, 0.5f32, 0.31f32);
-            self.shader.set_vec_3("material.specular", 0.5f32, 0.5f32, 0.5f32);
+            self.shader.set_vec_3v("viewPos", &self.camera.position);
             self.shader.set_float("material.shininess", 32.0f32);
 
-            self.shader.set_vec_3("light.ambient",  0.2f32, 0.2f32, 0.2f32);
-            self.shader.set_vec_3("light.diffuse",  0.5f32, 0.5f32, 0.5f32); // darken diffuse light a bit
-            self.shader.set_vec_3("light.specular", 1.0f32, 1.0f32, 1.0f32); 
+            self.shader.set_vec_3("dirLight.direction", -0.2f32, -1.0f32, -0.3f32); 
+            self.shader.set_vec_3("dirLight.ambient",  0.05f32, 0.05f32, 0.05f32);
+            self.shader.set_vec_3("dirLight.diffuse",  0.4f32, 0.4f32, 0.4f32); // darken diffuse light a bit
+            self.shader.set_vec_3("dirLight.specular", 0.5f32, 0.5f32, 0.5f32); 
 
-            let projection = glm::perspective(45.0f32.to_radians(), 800.0f32 / 600.0f32, 0.1f32, 100.0f32);
+            self.shader.set_vec_3v("pointLights[0].position", &self.point_light_positions[0]); 
+            self.shader.set_vec_3("pointLights[0].ambient",  0.05f32, 0.05f32, 0.05f32);
+            self.shader.set_vec_3("pointLights[0].diffuse",  0.8f32, 0.8f32, 0.8f32); // darken diffuse light a bit
+            self.shader.set_vec_3("pointLights[0].specular", 1.0f32, 1.0f32, 1.0f32); 
+            self.shader.set_float("pointLights[0].constant", 1.0f32);
+            self.shader.set_float("pointLights[0].linear", 0.09f32);
+            self.shader.set_float("pointLights[0].quadratic", 0.032f32);
+
+            self.shader.set_vec_3v("pointLights[1].position", &self.point_light_positions[1]); 
+            self.shader.set_vec_3("pointLights[1].ambient",  0.05f32, 0.05f32, 0.05f32);
+            self.shader.set_vec_3("pointLights[1].diffuse",  0.8f32, 0.8f32, 0.8f32); // darken diffuse light a bit
+            self.shader.set_vec_3("pointLights[1].specular", 1.0f32, 1.0f32, 1.0f32); 
+            self.shader.set_float("pointLights[1].constant", 1.0f32);
+            self.shader.set_float("pointLights[1].linear", 0.09f32);
+            self.shader.set_float("pointLights[1].quadratic", 0.032f32);
+
+            self.shader.set_vec_3v("pointLights[2].position", &self.point_light_positions[2]); 
+            self.shader.set_vec_3("pointLights[2].ambient",  0.05f32, 0.05f32, 0.05f32);
+            self.shader.set_vec_3("pointLights[2].diffuse",  0.8f32, 0.8f32, 0.8f32); // darken diffuse light a bit
+            self.shader.set_vec_3("pointLights[2].specular", 1.0f32, 1.0f32, 1.0f32); 
+            self.shader.set_float("pointLights[2].constant", 1.0f32);
+            self.shader.set_float("pointLights[2].linear", 0.09f32);
+            self.shader.set_float("pointLights[2].quadratic", 0.032f32);
+
+            self.shader.set_vec_3v("pointLights[3].position", &self.point_light_positions[3]); 
+            self.shader.set_vec_3("pointLights[3].ambient",  0.05f32, 0.05f32, 0.05f32);
+            self.shader.set_vec_3("pointLights[3].diffuse",  0.8f32, 0.8f32, 0.8f32); // darken diffuse light a bit
+            self.shader.set_vec_3("pointLights[3].specular", 1.0f32, 1.0f32, 1.0f32); 
+            self.shader.set_float("pointLights[3].constant", 1.0f32);
+            self.shader.set_float("pointLights[3].linear", 0.09f32);
+            self.shader.set_float("pointLights[3].quadratic", 0.032f32);
+
+            self.shader.set_vec_3v("spotLight.position", &self.camera.position); 
+            self.shader.set_vec_3v("spotLight.direction", &self.camera.front); 
+            self.shader.set_vec_3("spotLight.ambient", 0.0, 0.0, 0.0); 
+            self.shader.set_vec_3("spotLight.diffuse", 1.0, 1.0, 1.0); 
+            self.shader.set_vec_3("spotLight.specular", 1.0, 1.0, 1.0); 
+            self.shader.set_float("spotLight.constant", 1.0);
+            self.shader.set_float("spotLight.linear", 0.09);
+            self.shader.set_float("spotLight.quadratic", 0.032);
+            self.shader.set_float("spotLight.cutOff", f32::cos(f32::to_radians(12.5)));
+            self.shader.set_float("spotLight.outerCutOff", f32::cos(f32::to_radians(15.0)));
+
+            let projection = glm::perspective(f32::to_radians(self.camera.zoom), 800.0f32 / 800.0f32, 0.1f32, 100.0f32);
             let view = self.camera.get_view_matrix();
             
             self.shader.set_mat_4("projection", &projection);
             self.shader.set_mat_4("view", &view);
-
-            let mut model = glm::Mat4::identity();
-            model = glm::rotate(&model, self.glfw.get_time() as f32, &glm::vec3(1.0, 0.0, 0.0));
-            self.shader.set_mat_4("model", &model);
 
             gl::ActiveTexture(gl::TEXTURE0);
             gl::BindTexture(gl::TEXTURE_2D, self.diffuse_map);
@@ -277,20 +316,33 @@ impl Renderer {
             gl::BindTexture(gl::TEXTURE_2D, self.specular_map);
 
             gl::BindVertexArray(self.vao_id);
-            gl::DrawArrays(gl::TRIANGLES, 0, 36);
 
+
+            for i in 0..10 {
+                let mut model = glm::Mat4::identity();
+                model = glm::translate(&model, &self.cube_positions[i]);
+                let angle = 20.0f32 * i as f32;
+                model = glm::rotate(&model, f32::to_radians(angle), &glm::vec3(1.0, 0.3, 0.5));
+
+                // model = glm::rotate(&model, self.glfw.get_time() as f32, &glm::vec3(1.0, 0.0, 0.0));
+                self.shader.set_mat_4("model", &model);
+                gl::DrawArrays(gl::TRIANGLES, 0, 36);
+            }
 
             self.light_shader.use_program();
             self.light_shader.set_mat_4("projection", &projection);
             self.light_shader.set_mat_4("view", &view);
 
-            let mut model = glm::Mat4::identity();
-            model = glm::translate(&model, &light_pos);
-            model = glm::scale(&model, &glm::vec3(0.2f32, 0.2f32, 0.2f32));
-            self.light_shader.set_mat_4("model", &model);
-
             gl::BindVertexArray(self.light_vao);
-            gl::DrawArrays(gl::TRIANGLES, 0, 36);
+
+            for i in 0..4 {
+                let mut model = glm::Mat4::identity();
+                model = glm::translate(&model, &self.point_light_positions[i]);
+                model = glm::scale(&model, &glm::vec3(0.2, 0.2, 0.2));              
+
+                self.light_shader.set_mat_4("model", &model);
+                gl::DrawArrays(gl::TRIANGLES, 0, 36);
+            }
 
         }
     }

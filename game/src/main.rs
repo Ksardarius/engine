@@ -6,20 +6,20 @@ extern crate glfw;
 extern crate image;
 extern crate nalgebra_glm as glm;
 
-use std::{borrow::BorrowMut, cell::{Cell, RefCell}, rc::Rc, time::Instant};
+use std::time::Instant;
 
 use camera::Camera;
 use glfw::{Action, Context, Key};
 use renderer::Renderer;
 
 const SCR_WIDTH: u32 = 800;
-const SCR_HEIGHT: u32 = 600;
+const SCR_HEIGHT: u32 = 800;
 
 static mut first_mouse: bool = false;
 static mut last_x: f32 = SCR_WIDTH as f32 / 2.0f32;
 static mut last_y: f32 = SCR_HEIGHT as f32 / 2.0f32;
 
-const MS_PER_UPDATE: f64 = 1.0f64 / 60.0f64;
+const MS_PER_UPDATE: f64 = 1.0f64 / 120.0f64;
 
 fn main() {
     let mut previous = Instant::now();
