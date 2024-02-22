@@ -6,7 +6,7 @@ use glad_gl::gl;
 use glfw::{Context, CursorMode, PWindow, WindowEvent};
 use image::EncodableLayout;
 
-use crate::{camera::Camera, shader::Shader};
+use crate::{camera::Camera, model::Model, shader::Shader};
 
 // const BOX_VERTICES: [gl::GLfloat; 32] = [
 //     // positions          // colors           // texture coords
@@ -127,43 +127,47 @@ impl Renderer {
             format!("{dir}light_cube.fs").as_str(),
         );
 
-        let mut renderer = Self {
-            glfw: glfw,
-            window: window,
-            events: events,
+        let our_model = Model::new(format!("{dir}backpack/backpack.obj"));
+        println!("Model t: {:?}", our_model);
+        
 
-            camera: camera,
-            vao_id: 0,
-            vbo_id: 0,
+        // let mut renderer = Self {
+        //     glfw: glfw,
+        //     window: window,
+        //     events: events,
 
-            light_vao: 0,
+        //     camera: camera,
+        //     vao_id: 0,
+        //     vbo_id: 0,
 
-            shader,
-            light_shader: light_cube_shader,
+        //     light_vao: 0,
 
-            diffuse_map: 0,
-            specular_map: 0,
+        //     shader,
+        //     light_shader: light_cube_shader,
 
-            cube_positions: [
-                glm::vec3(0.0f32,  0.0f32,  0.0f32),
-                glm::vec3( 2.0f32,  5.0f32, -15.0f32),
-                glm::vec3(-1.5f32, -2.2f32, -2.5f32),
-                glm::vec3(-3.8f32, -2.0f32, -12.3f32),
-                glm::vec3( 2.4f32, -0.4f32, -3.5f32),
-                glm::vec3(-1.7f32,  3.0f32, -7.5f32),
-                glm::vec3( 1.3f32, -2.0f32, -2.5f32),
-                glm::vec3( 1.5f32,  2.0f32, -2.5f32),
-                glm::vec3( 1.5f32,  0.2f32, -1.5f32),
-                glm::vec3(-1.3f32,  1.0f32, -1.5f32)
-            ],
+        //     diffuse_map: 0,
+        //     specular_map: 0,
 
-            point_light_positions: [
-                glm::vec3( 0.7f32,  0.2f32,  2.0f32),
-                glm::vec3( 2.3f32, -3.3f32, -4.0f32),
-                glm::vec3(-4.0f32,  2.0f32, -12.0f32),
-                glm::vec3( 0.0f32,  0.0f32, -3.0f32)
-            ],
-        };
+        //     cube_positions: [
+        //         glm::vec3(0.0f32,  0.0f32,  0.0f32),
+        //         glm::vec3( 2.0f32,  5.0f32, -15.0f32),
+        //         glm::vec3(-1.5f32, -2.2f32, -2.5f32),
+        //         glm::vec3(-3.8f32, -2.0f32, -12.3f32),
+        //         glm::vec3( 2.4f32, -0.4f32, -3.5f32),
+        //         glm::vec3(-1.7f32,  3.0f32, -7.5f32),
+        //         glm::vec3( 1.3f32, -2.0f32, -2.5f32),
+        //         glm::vec3( 1.5f32,  2.0f32, -2.5f32),
+        //         glm::vec3( 1.5f32,  0.2f32, -1.5f32),
+        //         glm::vec3(-1.3f32,  1.0f32, -1.5f32)
+        //     ],
+
+        //     point_light_positions: [
+        //         glm::vec3( 0.7f32,  0.2f32,  2.0f32),
+        //         glm::vec3( 2.3f32, -3.3f32, -4.0f32),
+        //         glm::vec3(-4.0f32,  2.0f32, -12.0f32),
+        //         glm::vec3( 0.0f32,  0.0f32, -3.0f32)
+        //     ],
+        // };
 
         // let mut renderer = Self::new(camera);
 

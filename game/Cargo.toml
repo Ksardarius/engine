@@ -11,6 +11,7 @@ glad-gl = { path = "../glad-gl" }
 glfw = "0.54.0"
 image = "0.24.8"
 nalgebra-glm = "0.18.0"
+russimp = "3.2.0"
 
 [features]
 vulkan = [] # feature has no explicit dependencies
