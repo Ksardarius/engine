@@ -4,4 +4,4 @@ members = [
     "game",
     "ecs",
     "glad-gl"
-]
+, "gem", "res-cache", "script-manager", "gem-derive"]

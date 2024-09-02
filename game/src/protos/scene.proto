@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+message Vector2 {
+    float x = 1;
+    float y = 2;
+}
+
+message Vector3 {
+    float x = 1;
+    float y = 2;
+    float z = 3;
+}
+
+message Scene {
+    message Asset {
+        Vector3 location = 1;
+    }
+
+    message Material {
+
+    }
+
+    message Camera {
+        Vector3 location = 1;
+        optional Vector3 up = 2;
+        optional float yaw = 3;
+        optional float pitch = 4;
+    }
+
+    message Light {
+        Vector3 location = 1;
+        Vector3 color = 2;
+    }
+
+    repeated Asset asset = 1;
+    repeated Material material = 2;
+    Camera camera = 3;
+    repeated Light light = 4;
+}

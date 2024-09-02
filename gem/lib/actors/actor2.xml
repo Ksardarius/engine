@@ -1,0 +1,10 @@
+<Actor xmlns="actor" name="Actor2">
+    <CubePhysicsComponent>
+        <InitialTransform>
+            <Position x="10" y="10" z="10" />
+            <Orientation degrees="-90" />
+        </InitialTransform>
+        <Density>castIron</Density>
+        <PhysicsMaterial>Normal</PhysicsMaterial>
+    </CubePhysicsComponent>
+</Actor>

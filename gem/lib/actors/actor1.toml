@@ -1,0 +1,29 @@
+[[CubePhysicsComponent]]
+Density = "castIron"
+PhysicsMaterial = "Normal"
+
+[CubePhysicsComponent.InitialTransform.Position]
+x = 1
+y = 1
+z = 1
+[CubePhysicsComponent.InitialTransform.Orientation]
+degrees = -90
+
+[CubePhysicsComponent.Shape.Dimensions]
+x = 1
+y = 1
+z = 1
+
+[[TeapotRenderComponent]]
+
+[TeapotRenderComponent.Color]
+r = 0
+g = 0
+b = 0
+
+[[TeapotRenderComponent]]
+
+[TeapotRenderComponent.Color]
+r = 1
+g = 0
+b = 0

@@ -7,11 +7,19 @@ edition = "2021"
 
 [dependencies]
 ecs = { path = "../ecs" }
+fbxcel-dom = "0.0.10"
 glad-gl = { path = "../glad-gl" }
 glfw = "0.54.0"
 image = "0.24.8"
 nalgebra-glm = "0.18.0"
+prost = "0.12.3"
+protobuf = "3.4.0"
 russimp = "3.2.0"
+tobj = { version = "4.0.1", features = ["log"] }
+
+[build-dependencies]
+prost-build = "0.12.3"
+protobuf-codegen = "3.4.0"
 
 [features]
 vulkan = [] # feature has no explicit dependencies

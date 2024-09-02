@@ -60,6 +60,11 @@ impl Shader {
         unsafe { gl::Uniform3fv(attr_loc, 1, glm::value_ptr(vec).as_ptr()) };
     }
 
+    pub fn set_mat_3(&self, attr: &str, matrix: &glm::Mat3) {
+        let attr_loc = self.get_uniform_location(attr).try_into().unwrap();
+            unsafe { gl::UniformMatrix3fv(attr_loc, 1, gl::FALSE, glm::value_ptr(matrix).as_ptr()) };
+    }
+
     pub fn set_mat_4(&self, attr: &str, matrix: &glm::Mat4) {
         let attr_loc = self.get_uniform_location(attr).try_into().unwrap();
             unsafe { gl::UniformMatrix4fv(attr_loc, 1, gl::FALSE, glm::value_ptr(matrix).as_ptr()) };

@@ -1,0 +1,16 @@
+# Blender 4.0.2 MTL File: 'None'
+# www.blender.org
+
+newmtl Material.001
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd used-stainless-steel2-bl/used-stainless-steel2_albedo.png
+map_Po used-stainless-steel2-bl/used-stainless-steel2_ao.png
+map_refl used-stainless-steel2-bl/used-stainless-steel2_metallic.png
+map_bump used-stainless-steel2-bl/used-stainless-steel2_normal-ogl.png
+map_Pr used-stainless-steel2-bl/used-stainless-steel2_roughness.png
+

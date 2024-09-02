@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package snazzy.items;
+
+// A snazzy new shirt!
+message Shirt {
+    enum Size {
+        SMALL = 0;
+        MEDIUM = 1;
+        LARGE = 2;
+    }
+
+    string color = 1;
+    Size size = 2;
+}
+
+message OneofExample {
+    message MessageWithOneof {
+      optional string not_part_of_oneof = 1;
+      oneof Example {
+        string first_oneof_field = 2;
+        string second_oneof_field = 3;
+      }
+    }
+    repeated MessageWithOneof message = 1;
+  }

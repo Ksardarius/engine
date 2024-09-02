@@ -1,0 +1,16 @@
+<Actor xmlns="actor" name="Actor1">
+    <CubePhysicsComponent>
+        <InitialTransform>
+            <Position x="1" y="1" z="1" />
+            <Orientation degrees="-90" />
+        </InitialTransform>
+        <Shape>
+            <Dimensions x="1" y="1" z="1" />
+        </Shape>
+        <Density>castIron</Density>
+        <PhysicsMaterial>Normal</PhysicsMaterial>
+    </CubePhysicsComponent>
+    <TeapotRenderComponent>
+        <Color r="0" g="0" b="1.0" a="1.0"/>
+    </TeapotRenderComponent>
+</Actor>
