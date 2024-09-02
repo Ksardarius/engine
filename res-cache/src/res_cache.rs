@@ -8,9 +8,9 @@ impl ResCache {
 }
 
 pub trait HandleResCache {
-    fn get_res_cache(&self) -> &ResCache;
+    fn get_res_cache(&mut self) -> &ResCache;
 
-    fn init(&self) -> bool {
+    fn init(&mut self) -> bool {
         true
     }
 }

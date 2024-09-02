@@ -115,29 +115,6 @@ impl Debug for dyn Process {
     }
 }
 
-pub struct SimpleProcess {
-    pub state: State,
-    pub child: Option<Box<dyn Process>>
-}
-
-impl Process for SimpleProcess {
-    fn get_state(&self) -> State {
-        self.state
-    }
-
-    fn change_state(&mut self, state: State) {
-        self.state = state;
-    }
-    
-    fn on_update(&mut self, delta_s: f64) {
-        trace!("Update process");
-    }
-    
-    fn get_child(&mut self) -> &mut Option<Box<dyn Process>> {
-        &mut self.child
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use std::process;
@@ -145,6 +122,29 @@ mod tests {
     use log::info;
 
     use super::*;
+
+    pub struct SimpleProcess {
+        pub state: State,
+        pub child: Option<Box<dyn Process>>
+    }
+    
+    impl Process for SimpleProcess {
+        fn get_state(&self) -> State {
+            self.state
+        }
+    
+        fn change_state(&mut self, state: State) {
+            self.state = state;
+        }
+        
+        fn on_update(&mut self, delta_s: f64) {
+            trace!("Update process");
+        }
+        
+        fn get_child(&mut self) -> &mut Option<Box<dyn Process>> {
+            &mut self.child
+        }
+    }
 
     #[test]
     fn it_works() {

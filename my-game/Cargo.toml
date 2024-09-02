@@ -1,0 +1,11 @@
+[package]
+name = "my-game"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+gem = { path = "../gem" }
+res-cache = {path = "../res-cache"}
+script-manager = {path = "../script-manager"}
+log = "0.4.21"
+simple_logger = "5.0.0"

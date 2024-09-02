@@ -7,7 +7,7 @@ use strings_cache::HandleStringCache;
 use winit::application::ApplicationHandler;
 use winit::event::WindowEvent;
 use winit::event_loop::{ActiveEventLoop, ControlFlow, EventLoop};
-use winit::window::{Window, WindowId};
+use winit::window::Window;
 
 pub mod game_actors;
 pub mod options;

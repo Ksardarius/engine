@@ -1,7 +1,7 @@
+use gem::gem_application::{options::Options, process_management::process_manager::ProcessManager, strings_cache::{HandleStringCache, StringsCache}, GemApplication, HandleWindow};
 use res_cache::{HandleResCache, ResCache};
 use script_manager::{HandleScriptManager, ScriptManager};
 
-use crate::gem_application::{options::Options, process_management::process_manager::ProcessManager, strings_cache::{HandleStringCache, StringsCache}, GemApplication, HandleWindow};
 
 #[derive(Debug)]
 pub struct MyGemApplication {
@@ -33,7 +33,7 @@ impl GemApplication for MyGemApplication {
 }
 
 impl HandleResCache for MyGemApplication {
-    fn get_res_cache(&self) -> &ResCache {
+    fn get_res_cache(&mut self) -> &ResCache {
         &self.res_cache
     }
 }
